@@ -1,22 +1,12 @@
-import { useState } from "react";
-import {
-  Plus,
-  X,
-  Bold,
-  Italic,
-  List,
-  Link2,
-  Image,
-  AlignLeft,
-  AlignCenter,
-  AlignRight,
-} from "lucide-react";
-import { Button } from "./ui/button";
-import { Input } from "./ui/input";
-import { Textarea } from "./ui/textarea";
-import { Badge } from "./ui/badge";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog";
-import { toast } from "../hooks/use-toast";
+
+import { useState } from 'react';
+import { Plus, X, Bold, Italic, List, Link2, Image, AlignLeft, AlignCenter, AlignRight } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Badge } from '@/components/ui/badge';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { toast } from '@/hooks/use-toast';
 
 interface AskQuestionModalProps {
   isOpen: boolean;
@@ -24,29 +14,25 @@ interface AskQuestionModalProps {
 }
 
 const AskQuestionModal = ({ isOpen, onClose }: AskQuestionModalProps) => {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
   const [tags, setTags] = useState<string[]>([]);
-  const [currentTag, setCurrentTag] = useState("");
+  const [currentTag, setCurrentTag] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const addTag = () => {
-    if (
-      currentTag.trim() &&
-      !tags.includes(currentTag.trim()) &&
-      tags.length < 5
-    ) {
+    if (currentTag.trim() && !tags.includes(currentTag.trim()) && tags.length < 5) {
       setTags([...tags, currentTag.trim()]);
-      setCurrentTag("");
+      setCurrentTag('');
     }
   };
 
   const removeTag = (tagToRemove: string) => {
-    setTags(tags.filter((tag) => tag !== tagToRemove));
+    setTags(tags.filter(tag => tag !== tagToRemove));
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
+    if (e.key === 'Enter') {
       e.preventDefault();
       addTag();
     }
@@ -57,26 +43,26 @@ const AskQuestionModal = ({ isOpen, onClose }: AskQuestionModalProps) => {
       toast({
         title: "Missing Information",
         description: "Please fill in all fields and add at least one tag.",
-        variant: "destructive",
+        variant: "destructive"
       });
       return;
     }
 
     setIsSubmitting(true);
-
+    
     // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    
     toast({
       title: "Question Posted!",
-      description: "Your question has been posted successfully.",
+      description: "Your question has been posted successfully."
     });
 
     // Reset form
-    setTitle("");
-    setDescription("");
+    setTitle('');
+    setDescription('');
     setTags([]);
-    setCurrentTag("");
+    setCurrentTag('');
     setIsSubmitting(false);
     onClose();
   };
@@ -85,18 +71,13 @@ const AskQuestionModal = ({ isOpen, onClose }: AskQuestionModalProps) => {
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-2xl font-bold text-gray-900">
-            Ask a Question
-          </DialogTitle>
+          <DialogTitle className="text-2xl font-bold text-gray-900">Ask a Question</DialogTitle>
         </DialogHeader>
-
+        
         <div className="space-y-6">
           {/* Title */}
           <div>
-            <label
-              htmlFor="title"
-              className="block text-sm font-medium text-gray-700 mb-2"
-            >
+            <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-2">
               Title
             </label>
             <Input
@@ -117,7 +98,7 @@ const AskQuestionModal = ({ isOpen, onClose }: AskQuestionModalProps) => {
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Description
             </label>
-
+            
             {/* Editor Toolbar */}
             <div className="border border-gray-300 rounded-t-md bg-gray-50 p-2 flex flex-wrap gap-1">
               <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
@@ -147,7 +128,7 @@ const AskQuestionModal = ({ isOpen, onClose }: AskQuestionModalProps) => {
                 <AlignRight size={14} />
               </Button>
             </div>
-
+            
             {/* Editor Text Area */}
             <Textarea
               placeholder="Provide details about your question. Include what you've tried and what specific help you need."
@@ -163,7 +144,7 @@ const AskQuestionModal = ({ isOpen, onClose }: AskQuestionModalProps) => {
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Tags
             </label>
-
+            
             {/* Selected Tags */}
             {tags.length > 0 && (
               <div className="flex flex-wrap gap-2 mb-3">
@@ -182,7 +163,7 @@ const AskQuestionModal = ({ isOpen, onClose }: AskQuestionModalProps) => {
                 ))}
               </div>
             )}
-
+            
             {/* Tag Input */}
             <div className="flex gap-2">
               <Input
@@ -193,7 +174,7 @@ const AskQuestionModal = ({ isOpen, onClose }: AskQuestionModalProps) => {
                 onKeyPress={handleKeyPress}
                 className="flex-1"
               />
-              <Button
+              <Button 
                 type="button"
                 variant="outline"
                 onClick={addTag}
@@ -213,17 +194,12 @@ const AskQuestionModal = ({ isOpen, onClose }: AskQuestionModalProps) => {
             <Button variant="outline" onClick={onClose}>
               Cancel
             </Button>
-            <Button
+            <Button 
               className="bg-blue-600 hover:bg-blue-700"
               onClick={handleSubmit}
-              disabled={
-                !title.trim() ||
-                !description.trim() ||
-                tags.length === 0 ||
-                isSubmitting
-              }
+              disabled={!title.trim() || !description.trim() || tags.length === 0 || isSubmitting}
             >
-              {isSubmitting ? "Posting..." : "Post Question"}
+              {isSubmitting ? 'Posting...' : 'Post Question'}
             </Button>
           </div>
         </div>

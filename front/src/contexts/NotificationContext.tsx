@@ -1,10 +1,11 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
-import { useAuth } from "./AuthContext";
-import { toast } from "../hooks/use-toast";
+
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import { useAuth } from './AuthContext';
+import { toast } from '@/hooks/use-toast';
 
 interface Notification {
   id: string;
-  type: "answer" | "comment" | "mention";
+  type: 'answer' | 'comment' | 'mention';
   title: string;
   message: string;
   questionId?: number;
@@ -19,47 +20,35 @@ interface NotificationContextType {
   unreadCount: number;
   markAsRead: (id: string) => void;
   markAllAsRead: () => void;
-  addNotification: (
-    notification: Omit<Notification, "id" | "timestamp" | "read">
-  ) => void;
+  addNotification: (notification: Omit<Notification, 'id' | 'timestamp' | 'read'>) => void;
 }
 
-const NotificationContext = createContext<NotificationContextType | undefined>(
-  undefined
-);
+const NotificationContext = createContext<NotificationContextType | undefined>(undefined);
 
 export const useNotifications = () => {
   const context = useContext(NotificationContext);
   if (context === undefined) {
-    throw new Error(
-      "useNotifications must be used within a NotificationProvider"
-    );
+    throw new Error('useNotifications must be used within a NotificationProvider');
   }
   return context;
 };
 
-export const NotificationProvider = ({
-  children,
-}: {
-  children: React.ReactNode;
-}) => {
-  const { isAuthenticated } = useAuth();
+export const NotificationProvider = ({ children }: { children: React.ReactNode }) => {
+  const { user, isAuthenticated } = useAuth();
   const [notifications, setNotifications] = useState<Notification[]>([]);
 
-  const addNotification = (
-    notificationData: Omit<Notification, "id" | "timestamp" | "read">
-  ) => {
+  const addNotification = (notificationData: Omit<Notification, 'id' | 'timestamp' | 'read'>) => {
     if (!isAuthenticated) return;
-
+    
     const notification: Notification = {
       ...notificationData,
       id: Date.now().toString(),
       timestamp: new Date(),
-      read: false,
+      read: false
     };
-
-    setNotifications((prev) => [notification, ...prev]);
-
+    
+    setNotifications(prev => [notification, ...prev]);
+    
     // Show toast notification
     toast({
       title: notification.title,
@@ -68,20 +57,20 @@ export const NotificationProvider = ({
   };
 
   const markAsRead = (id: string) => {
-    setNotifications((prev) =>
-      prev.map((notification) =>
+    setNotifications(prev =>
+      prev.map(notification =>
         notification.id === id ? { ...notification, read: true } : notification
       )
     );
   };
 
   const markAllAsRead = () => {
-    setNotifications((prev) =>
-      prev.map((notification) => ({ ...notification, read: true }))
+    setNotifications(prev =>
+      prev.map(notification => ({ ...notification, read: true }))
     );
   };
 
-  const unreadCount = notifications.filter((n) => !n.read).length;
+  const unreadCount = notifications.filter(n => !n.read).length;
 
   // Simulate receiving notifications
   useEffect(() => {
@@ -90,29 +79,29 @@ export const NotificationProvider = ({
     const interval = setInterval(() => {
       // Simulate random notifications for demo
       if (Math.random() > 0.95) {
-        const types = ["answer", "comment", "mention"] as const;
+        const types = ['answer', 'comment', 'mention'] as const;
         const type = types[Math.floor(Math.random() * types.length)];
-
+        
         const messages = {
           answer: {
-            title: "New Answer",
-            message: "Someone answered your question about React TypeScript.",
+            title: 'New Answer',
+            message: 'Someone answered your question about React TypeScript.'
           },
           comment: {
-            title: "New Comment",
-            message: "Someone commented on your answer.",
+            title: 'New Comment',
+            message: 'Someone commented on your answer.'
           },
           mention: {
-            title: "You were mentioned",
-            message: "You were mentioned in a discussion.",
-          },
+            title: 'You were mentioned',
+            message: 'You were mentioned in a discussion.'
+          }
         };
-
+        
         addNotification({
           type,
           ...messages[type],
-          from: "user_demo",
-          questionId: 1,
+          from: 'user_demo',
+          questionId: 1
         });
       }
     }, 30000); // Check every 30 seconds
@@ -125,7 +114,7 @@ export const NotificationProvider = ({
     unreadCount,
     markAsRead,
     markAllAsRead,
-    addNotification,
+    addNotification
   };
 
   return (
@@ -134,5 +123,3 @@ export const NotificationProvider = ({
     </NotificationContext.Provider>
   );
 };
-
-export { toast };
