@@ -1,15 +1,10 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import {
-  Column,
-  Entity,
-  PrimaryGeneratedColumn,
-  ManyToOne,
-  JoinColumn,
-} from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { IsEmail } from 'class-validator';
-// import { Role } from './role.entity'; // assuming you have a Role entity defined
+import { UserAnswers } from 'src/modules/user_answers/entities/user_answer.entity';
+import { UserAnswerRatings } from 'src/modules/user-answers-ratings/entities/user-answers-rating.entity';
 
-@Entity({ name: 'users' }) // Table name as in your SQL
+@Entity({ name: 'users' })
 @ObjectType()
 export class Users {
   @PrimaryGeneratedColumn()
@@ -44,10 +39,6 @@ export class Users {
   @Column({ name: 'role_id', nullable: true })
   @Field(() => Number, { nullable: true })
   role_id?: number;
-
-  // @ManyToOne(() => Role)
-  // @JoinColumn({ name: 'role_id' })
-  // role?: Role;
 
   @Column({ name: 'is_banned', type: 'boolean', default: false })
   @Field()
@@ -86,4 +77,10 @@ export class Users {
   })
   @Field({ nullable: true })
   updated_date?: Date;
+
+  @OneToMany(() => UserAnswers, (ua) => ua.user)
+  userAnswers: UserAnswers[];
+
+  @OneToMany(() => UserAnswerRatings, (rating) => rating.user)
+  ratings: UserAnswerRatings[];
 }

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Not, Repository } from 'typeorm';
 import { Users } from './entity/users.entity';
@@ -17,10 +17,23 @@ export class UserService extends AbstractService {
     return userRepository.findOne({ where: { email } });
   }
 
-  async createUser(users: CreateUserInput): Promise<String> {
-    const newUser = this.repository.create(users);
-    newUser.hash = await generatePassword(users.hash);
-    const { id } = await this.abstractCreate(newUser);
+  async createUser(users: CreateUserInput): Promise<string> {
+    const existingUser = await this.repository.findOne({
+      where: [{ email: users.email }, { username: users.username }],
+    });
+
+    if (existingUser) {
+      const duplicates = [];
+      if (existingUser.email === users.email) duplicates.push('email');
+      if (existingUser.username === users.username) duplicates.push('username');
+
+      throw new BadRequestException(
+        `Duplicate ${duplicates.join(' and ')} not allowed`,
+      );
+    }
+
+    users.hash = await generatePassword(users.hash);
+    const { id } = await this.abstractCreate(users);
     return jwtGetToken(id);
   }
 

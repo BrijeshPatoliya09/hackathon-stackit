@@ -28,6 +28,7 @@
     "@nestjs/core": "^10.0.0",
     "@nestjs/graphql": "^12.1.1",
     "@nestjs/platform-express": "^10.0.0",
+    "@nestjs/swagger": "^7.1.9",
     "@nestjs/typeorm": "^10.0.2",
     "@newrelic/apollo-server-plugin": "^5.1.0",
     "apollo-server-express": "^3.13.0",
@@ -40,6 +41,7 @@
     "pg": "^8.11.3",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1",
+    "swagger-ui": "^5.26.2",
     "typeorm": "^0.3.20"
   },
   "devDependencies": {

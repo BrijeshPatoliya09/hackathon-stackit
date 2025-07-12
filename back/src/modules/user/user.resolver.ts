@@ -29,13 +29,11 @@ export class UserResolver {
     return jwtGetToken(user.id);
   }
 
-  // create user
   @Mutation((_returns) => String, { name: 'createUser' })
   createUser(@Args('createUserInput') createUserInput: CreateUserInput) {
     return this.userService.createUser(createUserInput);
   }
 
-  // getCurrteUser
   @Query((_returns) => Users, { name: 'getCurrentUser' })
   getCurrentUser(@Context('user') user: Users) {
     return user;
