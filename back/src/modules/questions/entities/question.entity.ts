@@ -13,6 +13,9 @@ export class Questions {
   @Column('text')
   description: string;
 
+  @Column({ type: 'varchar', length: 100, nullable: true })
+  documents: string;
+
   @Column({ type: 'timestamp', nullable: true })
   created_date: Date;
 
