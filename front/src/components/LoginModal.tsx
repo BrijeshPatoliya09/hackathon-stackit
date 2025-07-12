@@ -100,7 +100,7 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-md">
         <DialogHeader>
-          <DialogTitle className="text-2xl font-bold text-blue-600 text-center">
+          <DialogTitle className="text-2xl font-bold text-primary text-center">
             Welcome to StackIt
           </DialogTitle>
         </DialogHeader>
@@ -114,11 +114,11 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
           {/* Login Tab */}
           <TabsContent value="login" className="space-y-4 mt-6">
             <div>
-              <label htmlFor="login-email" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="login-email" className="block text-sm font-medium text-foreground mb-2">
                 Email
               </label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
                 <Input
                   id="login-email"
                   type="email"
@@ -131,11 +131,11 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
             </div>
             
             <div>
-              <label htmlFor="login-password" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="login-password" className="block text-sm font-medium text-foreground mb-2">
                 Password
               </label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
                 <Input
                   id="login-password"
                   type={showPassword ? "text" : "password"}
@@ -157,7 +157,7 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
             </div>
             
             <Button 
-              className="w-full bg-blue-600 hover:bg-blue-700"
+              className="w-full"
               onClick={handleLogin}
               disabled={isLoading}
             >
@@ -168,7 +168,7 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
           {/* Signup Tab */}
           <TabsContent value="signup" className="space-y-4 mt-6">
             <div>
-              <label htmlFor="signup-username" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="signup-username" className="block text-sm font-medium text-foreground mb-2">
                 Username
               </label>
               <Input
@@ -181,11 +181,11 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
             </div>
             
             <div>
-              <label htmlFor="signup-email" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="signup-email" className="block text-sm font-medium text-foreground mb-2">
                 Email
               </label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
                 <Input
                   id="signup-email"
                   type="email"
@@ -198,11 +198,11 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
             </div>
             
             <div>
-              <label htmlFor="signup-password" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="signup-password" className="block text-sm font-medium text-foreground mb-2">
                 Password
               </label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
                 <Input
                   id="signup-password"
                   type={showPassword ? "text" : "password"}
@@ -224,11 +224,11 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
             </div>
             
             <div>
-              <label htmlFor="confirm-password" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="confirm-password" className="block text-sm font-medium text-foreground mb-2">
                 Confirm Password
               </label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
                 <Input
                   id="confirm-password"
                   type="password"
@@ -241,7 +241,7 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
             </div>
             
             <Button 
-              className="w-full bg-blue-600 hover:bg-blue-700"
+              className="w-full"
               onClick={handleSignup}
               disabled={isLoading}
             >

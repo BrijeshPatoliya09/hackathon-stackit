@@ -88,8 +88,8 @@ export const NotificationProvider = ({ children }: { children: React.ReactNode }
             message: 'Someone answered your question about React TypeScript.'
           },
           comment: {
-            title: 'New Comment',
-            message: 'Someone commented on your answer.'
+            title: 'New Answer',
+            message: 'Someone answered your question.'
           },
           mention: {
             title: 'You were mentioned',

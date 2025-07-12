@@ -7,13 +7,16 @@ import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { toast } from '@/hooks/use-toast';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface AskQuestionModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onQuestionAdded?: (question: any) => void;
 }
 
-const AskQuestionModal = ({ isOpen, onClose }: AskQuestionModalProps) => {
+const AskQuestionModal = ({ isOpen, onClose, onQuestionAdded }: AskQuestionModalProps) => {
+  const { user } = useAuth();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [tags, setTags] = useState<string[]>([]);
@@ -53,6 +56,26 @@ const AskQuestionModal = ({ isOpen, onClose }: AskQuestionModalProps) => {
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 1500));
     
+    // Create new question object
+    const newQuestion = {
+      id: Date.now(), // Use timestamp as unique ID
+      title: title.trim(),
+      excerpt: description.trim().substring(0, 200) + (description.length > 200 ? '...' : ''),
+      author: user?.username || 'Anonymous',
+      answers: 0,
+      views: 1,
+      votes: 0,
+      tags: [...tags],
+      timeAgo: "just now",
+      isAccepted: false,
+      userVote: null as 'up' | 'down' | null
+    };
+
+    // Add the question to the list
+    if (onQuestionAdded) {
+      onQuestionAdded(newQuestion);
+    }
+    
     toast({
       title: "Question Posted!",
       description: "Your question has been posted successfully."
@@ -71,13 +94,13 @@ const AskQuestionModal = ({ isOpen, onClose }: AskQuestionModalProps) => {
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-2xl font-bold text-gray-900">Ask a Question</DialogTitle>
+          <DialogTitle className="text-2xl font-bold text-foreground">Ask a Question</DialogTitle>
         </DialogHeader>
         
         <div className="space-y-6">
           {/* Title */}
           <div>
-            <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="title" className="block text-sm font-medium text-foreground mb-2">
               Title
             </label>
             <Input
@@ -88,26 +111,26 @@ const AskQuestionModal = ({ isOpen, onClose }: AskQuestionModalProps) => {
               onChange={(e) => setTitle(e.target.value)}
               className="w-full"
             />
-            <p className="text-xs text-gray-500 mt-1">
+            <p className="text-xs text-muted-foreground mt-1">
               Please make sure the title is clear and specific
             </p>
           </div>
 
           {/* Rich Text Editor */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-foreground mb-2">
               Description
             </label>
             
             {/* Editor Toolbar */}
-            <div className="border border-gray-300 rounded-t-md bg-gray-50 p-2 flex flex-wrap gap-1">
+            <div className="border border-border rounded-t-md bg-muted p-2 flex flex-wrap gap-1">
               <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
                 <Bold size={14} />
               </Button>
               <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
                 <Italic size={14} />
               </Button>
-              <div className="w-px h-6 bg-gray-300 mx-1" />
+              <div className="w-px h-6 bg-border mx-1" />
               <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
                 <List size={14} />
               </Button>
@@ -117,7 +140,7 @@ const AskQuestionModal = ({ isOpen, onClose }: AskQuestionModalProps) => {
               <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
                 <Image size={14} />
               </Button>
-              <div className="w-px h-6 bg-gray-300 mx-1" />
+              <div className="w-px h-6 bg-border mx-1" />
               <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
                 <AlignLeft size={14} />
               </Button>
@@ -141,7 +164,7 @@ const AskQuestionModal = ({ isOpen, onClose }: AskQuestionModalProps) => {
 
           {/* Tags */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-foreground mb-2">
               Tags
             </label>
             
@@ -184,7 +207,7 @@ const AskQuestionModal = ({ isOpen, onClose }: AskQuestionModalProps) => {
                 Add
               </Button>
             </div>
-            <p className="text-xs text-gray-500 mt-1">
+            <p className="text-xs text-muted-foreground mt-1">
               Add up to 5 tags to categorize your question
             </p>
           </div>
@@ -195,7 +218,7 @@ const AskQuestionModal = ({ isOpen, onClose }: AskQuestionModalProps) => {
               Cancel
             </Button>
             <Button 
-              className="bg-blue-600 hover:bg-blue-700"
+              variant="default"
               onClick={handleSubmit}
               disabled={!title.trim() || !description.trim() || tags.length === 0 || isSubmitting}
             >

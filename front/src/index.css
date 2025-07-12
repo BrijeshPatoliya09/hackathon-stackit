@@ -9,82 +9,217 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 0 0% 98%;
-    --foreground: 0 0% 13%;
+    --background: 210 20% 98%;
+    --foreground: 210 15% 12%;
 
     --card: 0 0% 100%;
-    --card-foreground: 0 0% 13%;
+    --card-foreground: 210 15% 12%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 13%;
+    --popover-foreground: 210 15% 12%;
 
-    --primary: 22 100% 45%;
+    --primary: 203 82% 56%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 200 13% 93%;
-    --secondary-foreground: 0 0% 13%;
+    --secondary: 203 20% 92%;
+    --secondary-foreground: 210 15% 12%;
 
-    --muted: 200 13% 93%;
-    --muted-foreground: 0 0% 38%;
+    --muted: 203 15% 94%;
+    --muted-foreground: 210 10% 45%;
 
-    --accent: 123 42% 40%;
+    --accent: 203 82% 56%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 88%;
-    --input: 0 0% 88%;
-    --ring: 22 100% 45%;
+    --border: 203 15% 88%;
+    --input: 203 15% 90%;
+    --ring: 203 82% 56%;
 
     --radius: 0.75rem;
 
-    --sidebar-background: 0 0% 18%;
-    --sidebar-foreground: 0 0% 100%;
-    --sidebar-primary: 22 100% 45%;
+    /* Extended Design System Colors - Blue Theme Based */
+    --blue-50: 203 90% 97%;
+    --blue-100: 203 85% 94%;
+    --blue-200: 203 80% 88%;
+    --blue-300: 203 75% 78%;
+    --blue-400: 203 78% 68%;
+    --blue-500: 203 82% 56%;
+    --blue-600: 203 85% 46%;
+    --blue-700: 203 88% 36%;
+    --blue-800: 203 90% 28%;
+    --blue-900: 203 95% 20%;
+
+    --purple-50: 260 90% 97%;
+    --purple-100: 260 85% 94%;
+    --purple-200: 260 80% 88%;
+    --purple-300: 260 75% 78%;
+    --purple-400: 260 78% 68%;
+    --purple-500: 260 82% 56%;
+    --purple-600: 260 85% 46%;
+    --purple-700: 260 88% 36%;
+    --purple-800: 260 90% 28%;
+    --purple-900: 260 95% 20%;
+
+    --gray-50: 210 40% 98%;
+    --gray-100: 210 40% 96%;
+    --gray-200: 214 32% 91%;
+    --gray-300: 213 27% 84%;
+    --gray-400: 215 20% 65%;
+    --gray-500: 215 16% 47%;
+    --gray-600: 215 19% 35%;
+    --gray-700: 215 25% 27%;
+    --gray-800: 217 33% 17%;
+    --gray-900: 222 84% 5%;
+
+    --green-50: 138 76% 97%;
+    --green-100: 141 84% 93%;
+    --green-200: 141 79% 85%;
+    --green-300: 142 77% 73%;
+    --green-400: 142 69% 58%;
+    --green-500: 142 71% 45%;
+    --green-600: 142 76% 36%;
+    --green-700: 142 72% 29%;
+    --green-800: 143 64% 24%;
+    --green-900: 144 61% 20%;
+
+    --yellow-50: 55 92% 95%;
+    --yellow-100: 55 97% 88%;
+    --yellow-200: 53 98% 77%;
+    --yellow-300: 50 98% 64%;
+    --yellow-400: 48 96% 53%;
+    --yellow-500: 45 93% 47%;
+    --yellow-600: 41 96% 40%;
+    --yellow-700: 35 91% 33%;
+    --yellow-800: 32 81% 29%;
+    --yellow-900: 28 73% 26%;
+
+    --red-50: 0 86% 97%;
+    --red-100: 0 93% 94%;
+    --red-200: 0 96% 89%;
+    --red-300: 0 94% 82%;
+    --red-400: 0 91% 71%;
+    --red-500: 0 84% 60%;
+    --red-600: 0 72% 51%;
+    --red-700: 0 74% 42%;
+    --red-800: 0 70% 35%;
+    --red-900: 0 63% 31%;
+
+    --sidebar-background: 203 30% 95%;
+    --sidebar-foreground: 210 15% 12%;
+    --sidebar-primary: 203 82% 56%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 0 0% 25%;
-    --sidebar-accent-foreground: 0 0% 100%;
-    --sidebar-border: 0 0% 25%;
-    --sidebar-ring: 22 100% 45%;
+    --sidebar-accent: 203 20% 88%;
+    --sidebar-accent-foreground: 210 15% 12%;
+    --sidebar-border: 203 15% 88%;
+    --sidebar-ring: 203 82% 56%;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    --background: 203 95% 6%;
+    --foreground: 203 20% 95%;
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --card: 203 90% 8%;
+    --card-foreground: 203 20% 95%;
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 203 90% 8%;
+    --popover-foreground: 203 20% 95%;
 
-    --primary: 262 83% 58%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 203 82% 60%;
+    --primary-foreground: 203 95% 6%;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 203 40% 15%;
+    --secondary-foreground: 203 20% 95%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 203 40% 12%;
+    --muted-foreground: 203 15% 65%;
 
-    --accent: 262 83% 58%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 203 82% 60%;
+    --accent-foreground: 203 95% 6%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 63% 55%;
+    --destructive-foreground: 203 20% 95%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 262 83% 58%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 262 83% 58%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 262 83% 58%;
+    --border: 203 40% 18%;
+    --input: 203 40% 15%;
+    --ring: 203 82% 60%;
+
+    /* Dark mode colors - Blue Theme Based */
+    --blue-50: 203 95% 6%;
+    --blue-100: 203 40% 12%;
+    --blue-200: 203 40% 18%;
+    --blue-300: 203 40% 25%;
+    --blue-400: 203 78% 48%;
+    --blue-500: 203 82% 56%;
+    --blue-600: 203 85% 66%;
+    --blue-700: 203 88% 76%;
+    --blue-800: 203 90% 88%;
+    --blue-900: 203 90% 97%;
+
+    --purple-50: 260 95% 6%;
+    --purple-100: 260 40% 12%;
+    --purple-200: 260 40% 18%;
+    --purple-300: 260 40% 25%;
+    --purple-400: 260 78% 48%;
+    --purple-500: 260 82% 56%;
+    --purple-600: 260 85% 66%;
+    --purple-700: 260 88% 76%;
+    --purple-800: 260 90% 88%;
+    --purple-900: 260 90% 97%;
+
+    --gray-50: 222 84% 5%;
+    --gray-100: 217 33% 10%;
+    --gray-200: 217 33% 18%;
+    --gray-300: 217 33% 25%;
+    --gray-400: 215 20% 45%;
+    --gray-500: 215 16% 65%;
+    --gray-600: 215 19% 75%;
+    --gray-700: 215 25% 85%;
+    --gray-800: 217 33% 90%;
+    --gray-900: 210 40% 98%;
+
+    --green-50: 222 84% 5%;
+    --green-100: 217 33% 18%;
+    --green-200: 217 33% 25%;
+    --green-300: 217 33% 35%;
+    --green-400: 142 69% 48%;
+    --green-500: 142 71% 55%;
+    --green-600: 142 76% 66%;
+    --green-700: 142 72% 79%;
+    --green-800: 143 64% 84%;
+    --green-900: 138 76% 97%;
+
+    --yellow-50: 222 84% 5%;
+    --yellow-100: 217 33% 18%;
+    --yellow-200: 217 33% 25%;
+    --yellow-300: 217 33% 35%;
+    --yellow-400: 48 96% 43%;
+    --yellow-500: 45 93% 57%;
+    --yellow-600: 41 96% 60%;
+    --yellow-700: 35 91% 73%;
+    --yellow-800: 32 81% 79%;
+    --yellow-900: 55 92% 95%;
+
+    --red-50: 222 84% 5%;
+    --red-100: 217 33% 18%;
+    --red-200: 217 33% 25%;
+    --red-300: 217 33% 35%;
+    --red-400: 0 91% 61%;
+    --red-500: 0 84% 70%;
+    --red-600: 0 72% 71%;
+    --red-700: 0 74% 82%;
+    --red-800: 0 70% 85%;
+    --red-900: 0 86% 97%;
+
+    --sidebar-background: 203 90% 8%;
+    --sidebar-foreground: 203 20% 95%;
+    --sidebar-primary: 203 82% 60%;
+    --sidebar-primary-foreground: 203 95% 6%;
+    --sidebar-accent: 203 40% 15%;
+    --sidebar-accent-foreground: 203 20% 95%;
+    --sidebar-border: 203 40% 18%;
+    --sidebar-ring: 203 82% 60%;
   }
 }
 

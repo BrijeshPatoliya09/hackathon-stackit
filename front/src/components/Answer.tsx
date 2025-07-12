@@ -6,6 +6,14 @@ import { Card, CardContent } from '@/components/ui/card';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from '@/hooks/use-toast';
 import { useState } from 'react';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import { Link } from 'react-router-dom';
 
 interface AnswerProps {
   id: number;
@@ -17,6 +25,7 @@ interface AnswerProps {
   canAccept?: boolean;
   onAccept?: (answerId: number) => void;
   className?: string;
+  onLoginRequired?: () => void;
 }
 
 const Answer = ({ 
@@ -28,11 +37,20 @@ const Answer = ({
   isAccepted = false,
   canAccept = false,
   onAccept,
-  className = ""
+  className = "",
+  onLoginRequired
 }: AnswerProps) => {
   const { isAuthenticated } = useAuth();
   const [votes, setVotes] = useState(initialVotes);
   const [userVote, setUserVote] = useState<'up' | 'down' | null>(null);
+  
+  // Mock comments data
+  const [comments] = useState([
+    { id: 1, content: "Great explanation! Thanks for the detailed code example.", author: "user123", timeAgo: "30 minutes ago" },
+    { id: 2, content: "This helped me solve my authentication issue.", author: "developer_joe", timeAgo: "15 minutes ago" },
+    { id: 3, content: "Could you explain more about the security considerations?", author: "security_dev", timeAgo: "10 minutes ago" },
+    { id: 4, content: "Perfect! This is exactly what I was looking for.", author: "react_learner", timeAgo: "5 minutes ago" },
+  ]);
 
   const handleVote = (type: 'up' | 'down') => {
     if (!isAuthenticated) {
@@ -41,6 +59,7 @@ const Answer = ({
         description: "Please log in to vote on answers.",
         variant: "destructive"
       });
+      onLoginRequired?.();
       return;
     }
     
@@ -152,6 +171,45 @@ const Answer = ({
                   <Clock size={14} className="sm:w-4 sm:h-4" />
                   <span>{timeAgo}</span>
                 </div>
+                
+                {/* Comments */}
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="text-xs sm:text-sm text-muted-foreground hover:text-primary hover:bg-accent p-1 h-auto"
+                    >
+                      <MessageSquare size={14} className="mr-1" />
+                      {comments.length} answer{comments.length !== 1 ? 's' : ''}
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto bg-card border-border">
+                    <DialogHeader>
+                      <DialogTitle className="text-foreground">Answers ({comments.length})</DialogTitle>
+                    </DialogHeader>
+                    <div className="space-y-4 mt-4">
+                      {comments.slice(0, 3).map((comment) => (
+                        <div key={comment.id} className="border-b border-border pb-3 last:border-b-0">
+                          <p className="text-sm text-foreground mb-2">{comment.content}</p>
+                          <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                            <span className="font-medium text-primary">{comment.author}</span>
+                            <span>•</span>
+                            <span>{comment.timeAgo}</span>
+                          </div>
+                        </div>
+                      ))}
+                      {comments.length > 3 && (
+                        <Link 
+                          to={`/question/1/comments`} 
+                          className="block text-sm text-primary hover:text-primary/80 transition-colors"
+                        >
+                          Show all {comments.length} answers →
+                        </Link>
+                      )}
+                    </div>
+                  </DialogContent>
+                </Dialog>
               </div>
               
               <div className="flex items-center gap-3">

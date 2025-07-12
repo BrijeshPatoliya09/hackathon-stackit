@@ -1,6 +1,6 @@
 
 import { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { MessageSquare, Eye, Clock, CheckCircle2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -10,11 +10,14 @@ import { useNotifications } from '@/contexts/NotificationContext';
 import { toast } from '@/hooks/use-toast';
 import Answer from '@/components/Answer';
 import AnswerForm from '@/components/AnswerForm';
+import LoginModal from '@/components/LoginModal';
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
 
 const QuestionDetail = () => {
   const { id } = useParams<{ id: string }>();
   const { user, isAuthenticated } = useAuth();
   const { addNotification } = useNotifications();
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   
   // Mock question data
   const [question] = useState({
@@ -100,8 +103,22 @@ const QuestionDetail = () => {
 
   return (
     <div className="space-y-4 sm:space-y-6">
+      {/* Breadcrumb */}
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink asChild>
+              <Link to="/" className="text-primary hover:text-primary/80">Home</Link>
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage className="text-muted-foreground">Question #{id}</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
       {/* Question Card */}
-      <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm">
+      <Card className="border-0 shadow-lg bg-card/80 backdrop-blur-sm">
         <CardContent className="p-4 sm:p-6 lg:p-8">
           <div className="w-full">
             {/* Content Section */}
@@ -113,12 +130,12 @@ const QuestionDetail = () => {
               </div>
               
               {/* Tags */}
-              <div className="flex flex-wrap gap-1 sm:gap-2 mb-4 sm:mb-6">
+              <div className="flex flex-wrap gap-2 mb-4 sm:mb-6">
                 {question.tags.map((tag) => (
                   <Badge 
                     key={tag} 
-                    variant="secondary" 
-                    className="bg-gradient-to-r from-purple-100 to-blue-100 text-purple-700 hover:from-purple-200 hover:to-blue-200 transition-all duration-200 cursor-pointer border-0 text-xs sm:text-sm"
+                    variant="outline" 
+                    className="bg-transparent border-border text-foreground hover:bg-accent hover:text-primary transition-all duration-200 cursor-pointer"
                   >
                     {tag}
                   </Badge>
@@ -152,7 +169,7 @@ const QuestionDetail = () => {
       </Card>
 
       {/* Answers Section */}
-      <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm">
+      <Card className="border-0 shadow-lg bg-card/80 backdrop-blur-sm">
         <CardHeader className="px-4 sm:px-6">
           <CardTitle className="text-xl sm:text-2xl font-bold text-foreground">
             {answers.length} Answer{answers.length !== 1 ? 's' : ''}
@@ -165,13 +182,17 @@ const QuestionDetail = () => {
               {...answer}
               canAccept={isQuestionOwner && !answer.isAccepted}
               onAccept={handleAcceptAnswer}
+              onLoginRequired={() => setIsLoginModalOpen(true)}
             />
           ))}
         </CardContent>
       </Card>
 
       {/* Answer Form */}
-      <AnswerForm questionId={question.id} onSubmit={handleNewAnswer} />
+      <AnswerForm questionId={question.id} onSubmit={handleNewAnswer} onLoginRequired={() => setIsLoginModalOpen(true)} />
+      
+      {/* Login Modal */}
+      <LoginModal isOpen={isLoginModalOpen} onClose={() => setIsLoginModalOpen(false)} />
     </div>
   );
 };

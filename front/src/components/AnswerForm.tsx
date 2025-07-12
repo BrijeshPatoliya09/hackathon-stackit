@@ -9,9 +9,10 @@ import { toast } from '@/hooks/use-toast';
 interface AnswerFormProps {
   questionId: number;
   onSubmit: (content: string) => void;
+  onLoginRequired?: () => void;
 }
 
-const AnswerForm = ({ questionId, onSubmit }: AnswerFormProps) => {
+const AnswerForm = ({ questionId, onSubmit, onLoginRequired }: AnswerFormProps) => {
   const { isAuthenticated, user } = useAuth();
   const [content, setContent] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -63,10 +64,20 @@ const AnswerForm = ({ questionId, onSubmit }: AnswerFormProps) => {
 
   if (!isAuthenticated) {
     return (
-      <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm">
+      <Card className="border-0 shadow-lg bg-card/80 backdrop-blur-sm">
         <CardContent className="p-4 sm:p-6 text-center">
           <p className="text-muted-foreground mb-4">Please log in to post an answer.</p>
-          <Button variant="outline">
+          <Button 
+            variant="outline" 
+            onClick={() => {
+              toast({
+                title: "Login Required",
+                description: "Please log in to post an answer.",
+                variant: "destructive"
+              });
+              onLoginRequired?.();
+            }}
+          >
             Log In to Answer
           </Button>
         </CardContent>
@@ -75,7 +86,7 @@ const AnswerForm = ({ questionId, onSubmit }: AnswerFormProps) => {
   }
 
   return (
-    <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm">
+    <Card className="border-0 shadow-lg bg-card/80 backdrop-blur-sm">
       <CardContent className="p-4 sm:p-6">
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
