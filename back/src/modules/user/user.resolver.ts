@@ -6,7 +6,7 @@ import {
   Query,
   Resolver,
 } from '@nestjs/graphql';
-import { User } from './entity/users.entity';
+import { Users } from './entity/users.entity';
 import { CreateUserInput } from './dto/create-user.input';
 import { UserService } from './user.service';
 import { UseGuards } from '@nestjs/common';
@@ -14,7 +14,7 @@ import { jwtGetToken } from 'src/utils/helper';
 import { AuthGuard } from '../auth/auth.guard';
 import { getAllRelations } from 'src/commons/helper.function';
 
-@Resolver((_of) => User)
+@Resolver((_of) => Users)
 export class UserResolver {
   constructor(private readonly userService: UserService) {}
 
@@ -24,7 +24,7 @@ export class UserResolver {
     @Args({ name: 'email', type: () => String }) email: string,
     @Args({ name: 'password', type: () => String }) password: string,
     @Context('user')
-    user: User,
+    user: Users,
   ) {
     return jwtGetToken(user.id);
   }
@@ -36,13 +36,13 @@ export class UserResolver {
   }
 
   // getCurrteUser
-  @Query((_returns) => User, { name: 'getCurrentUser' })
-  getCurrentUser(@Context('user') user: User) {
+  @Query((_returns) => Users, { name: 'getCurrentUser' })
+  getCurrentUser(@Context('user') user: Users) {
     return user;
   }
 
-  @Query((_returns) => [User], { name: 'getUsers' })
-  getUsers(@Context('user') user: User, @Info() info) {
+  @Query((_returns) => [Users], { name: 'getUsers' })
+  getUsers(@Context('user') user: Users, @Info() info) {
     const relations = getAllRelations(info);
     return this.userService.getUsers(user, relations);
   }

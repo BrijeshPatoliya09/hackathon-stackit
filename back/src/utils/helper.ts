@@ -3,7 +3,7 @@ import { ValidationError } from 'class-validator';
 import * as jwt from 'jsonwebtoken';
 import * as bcrypt from 'bcrypt';
 
-export const jwtGetToken = (id: string, expiresIn: string = '1h') => {
+export const jwtGetToken = (id: number, expiresIn: string = '1h') => {
   // 'expiresIn' specifies the time from now in seconds or a string describing a time span, like "1d" (1 day)
   const token = jwt.sign({ id }, process.env.JWT_SECRET_KEY, { expiresIn });
   return token;
@@ -24,7 +24,6 @@ export const validationPipeExceptionFactory = (
     })),
   );
 };
-
 
 export const generatePassword = async (password: string) => {
   const saltOrRounds = 10;

@@ -1,45 +1,89 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-import { UserRoles } from '../dto/user.role.enum';
-import { IsEmail, IsEnum } from 'class-validator';
-import { ResponseObject } from 'src/utils/response.object';
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
+import { IsEmail } from 'class-validator';
+// import { Role } from './role.entity'; // assuming you have a Role entity defined
 
-@Entity({ name: 'user' })
+@Entity({ name: 'users' }) // Table name as in your SQL
 @ObjectType()
-export class User {
-  @PrimaryGeneratedColumn('uuid')
-  @Field((type) => String)
-  id: string;
+export class Users {
+  @PrimaryGeneratedColumn()
+  @Field(() => Number)
+  id: number;
 
-  @Column('character varying', { length: 100, name: 'username' })
-  @Field((type) => String)
-  username: string;
+  @Column('character varying', {
+    length: 100,
+    name: 'first_name',
+    nullable: true,
+  })
+  @Field({ nullable: true })
+  first_name?: string;
 
-  @Column('character varying', { unique: true, name: 'email' })
-  @Field((type) => String)
+  @Column('character varying', {
+    length: 100,
+    name: 'last_name',
+    nullable: true,
+  })
+  @Field({ nullable: true })
+  last_name?: string;
+
+  @Column('character varying', { length: 100, unique: true })
+  @Field()
   @IsEmail()
   email: string;
 
-  @Column('character varying', { name: 'password' })
-  @Field((type) => String)
-  password: string;
+  @Column('character varying', { length: 255, name: 'hash' })
+  @Field()
+  hash: string;
 
-  @Column('enum', { enum: UserRoles, name: 'role' })
-  @Field((type) => String)
-  @IsEnum(UserRoles)
-  role: UserRoles;
+  @Column({ name: 'role_id', nullable: true })
+  @Field(() => Number, { nullable: true })
+  role_id?: number;
 
-  @Column('timestamp without time zone', {
-    name: 'created_at',
-    default: () => 'CURRENT_TIMESTAMP',
+  // @ManyToOne(() => Role)
+  // @JoinColumn({ name: 'role_id' })
+  // role?: Role;
+
+  @Column({ name: 'is_banned', type: 'boolean', default: false })
+  @Field()
+  is_banned: boolean;
+
+  @Column({
+    name: 'created_by',
+    type: 'character varying',
+    length: 100,
+    nullable: true,
   })
-  @Field((type) => String)
-  createdAt: Date;
+  @Field({ nullable: true })
+  created_by?: string;
 
-  @Column('timestamp without time zone', {
-    name: 'updated_at',
-    default: () => 'CURRENT_TIMESTAMP',
+  @Column({
+    name: 'created_date',
+    type: 'timestamp without time zone',
+    nullable: true,
   })
-  @Field((type) => String)
-  updatedAt: Date;
+  @Field({ nullable: true })
+  created_date?: Date;
+
+  @Column({
+    name: 'updated_by',
+    type: 'character varying',
+    length: 100,
+    nullable: true,
+  })
+  @Field({ nullable: true })
+  updated_by?: string;
+
+  @Column({
+    name: 'updated_date',
+    type: 'timestamp without time zone',
+    nullable: true,
+  })
+  @Field({ nullable: true })
+  updated_date?: Date;
 }

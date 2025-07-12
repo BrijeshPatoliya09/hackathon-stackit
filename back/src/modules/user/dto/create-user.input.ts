@@ -14,9 +14,9 @@ export class CreateUserInput {
 
   @Field((type) => String)
   @IsString()
-  password: string;
+  hash: string;
 
-  @Field((type) => String)
-  @IsEnum(UserRoles)
-  role: UserRoles;
+  // @Field((type) => String)
+  // @IsEnum(UserRoles)
+  // role: UserRoles;
 }

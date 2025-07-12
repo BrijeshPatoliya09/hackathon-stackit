@@ -1,4 +1,4 @@
 import { dataSource } from '../../../core/data-source';
-import { User } from '../entity/users.entity';
+import { Users } from '../entity/users.entity';
 
-export const userRepository = dataSource.getRepository(User);
+export const userRepository = dataSource.getRepository(Users);

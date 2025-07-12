@@ -21,6 +21,7 @@ export abstract class AbstractService {
 
   async abstractCreate(data: any): Promise<any> {
     const entity = this.repository.create(data);
+    console.log(entity);
     const errors = await validate(entity);
     if (errors.length > 0) {
       const error = errors.map((e) => {

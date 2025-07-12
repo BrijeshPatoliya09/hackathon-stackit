@@ -19,8 +19,8 @@ export class AuthGuard implements CanActivate {
     const { email, password } = ctx.req.body.variables;
     const user = await this.userService.getUserByEmail(email);
 
-    if (user && (await comparePassword(password, user.password))) {
-      const {password, ...res} = user;
+    if (user && (await comparePassword(password, user.hash))) {
+      const { hash, ...res } = user;
       ctx.user = res;
       return true;
     } else {
