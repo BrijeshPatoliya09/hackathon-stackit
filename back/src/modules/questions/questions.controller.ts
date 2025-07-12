@@ -1,4 +1,3 @@
-// import { baseController } from '@core/baseController';
 import {
   Controller,
   Get,
@@ -18,13 +17,15 @@ import { Request, Response } from 'express';
 import { QuestionsService } from './questions.service';
 import { CreateQuestionDto } from './dto/create-question.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
+import { baseController } from 'src/core/baseController';
+import { GetQuestionsFilterDto } from './dto/get-questions.dto';
 
 @ApiTags('Questions')
 @Controller('questions')
 export class QuestionsController {
   constructor(private readonly questionsService: QuestionsService) {}
 
-  @Post()
+  @Post('create-questions')
   async create(
     @Body() createQuestionDto: CreateQuestionDto,
     @Res() res: Response,
@@ -35,35 +36,54 @@ export class QuestionsController {
     }
     const result =
       await this.questionsService.createQuestions(createQuestionDto);
-    // return baseController.getResult(
-    //   res,
-    //   200,
-    //   result,
-    //   'Area create successfully.',
-    // );
-    return false;
+    return baseController.getResult(
+      res,
+      200,
+      result,
+      'Question created successfully.',
+    );
   }
 
   @Get()
-  findAll() {
-    return this.questionsService.findAll();
+  async findAll(
+    @Query() filterDto: GetQuestionsFilterDto,
+    @Res() res: Response,
+  ): Promise<Response> {
+    const result = await this.questionsService.findAllQuestions(filterDto);
+    return baseController.getResult(
+      res,
+      200,
+      result,
+      'Questions fetched successfully.',
+    );
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.questionsService.findOne(+id);
+  @Get(':id/get-question')
+  async findOne(
+    @Param('id', ParseIntPipe) id: number,
+    @Res() res: Response,
+  ): Promise<Response> {
+    const result = await this.questionsService.findOneQuestionById(id);
+    return baseController.getResult(
+      res,
+      200,
+      result,
+      'Question fetched successfully.',
+    );
   }
 
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateQuestionDto: UpdateQuestionDto,
-  ) {
-    return this.questionsService.update(+id, updateQuestionDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.questionsService.remove(+id);
+  @Patch(':id/update-question')
+  async update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() dto: UpdateQuestionDto,
+    @Res() res: Response,
+  ): Promise<Response> {
+    const result = await this.questionsService.updateQuestionById(id, dto);
+    return baseController.getResult(
+      res,
+      200,
+      result,
+      'Question updated successfully.',
+    );
   }
 }

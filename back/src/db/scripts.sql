@@ -2,6 +2,7 @@ CREATE TABLE IF NOT EXISTS questions (
     id SERIAL PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
     description TEXT NOT NULL,
+    documents character varying(100),
     created_date TIMESTAMP WITHOUT TIME ZONE,
     created_by VARCHAR(100),
     updated_date TIMESTAMP WITHOUT TIME ZONE,
