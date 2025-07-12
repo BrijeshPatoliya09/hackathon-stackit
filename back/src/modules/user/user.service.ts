@@ -19,7 +19,7 @@ export class UserService extends AbstractService {
 
   async createUser(users: CreateUserInput): Promise<String> {
     const newUser = this.repository.create(users);
-    newUser.password = await generatePassword(users.hash);
+    newUser.hash = await generatePassword(users.hash);
     const { id } = await this.abstractCreate(newUser);
     return jwtGetToken(id);
   }

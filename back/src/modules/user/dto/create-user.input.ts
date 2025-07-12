@@ -1,6 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { UserRoles } from './user.role.enum';
-import { IsEmail, IsEnum, IsString } from 'class-validator';
+import { IsEmail, IsString } from 'class-validator';
 
 @InputType()
 export class CreateUserInput {
@@ -15,8 +14,4 @@ export class CreateUserInput {
   @Field((type) => String)
   @IsString()
   hash: string;
-
-  // @Field((type) => String)
-  // @IsEnum(UserRoles)
-  // role: UserRoles;
 }
