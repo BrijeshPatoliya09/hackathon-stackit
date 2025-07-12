@@ -1,4 +1,15 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateUserAnswersRatingDto } from './create-user-answers-rating.dto';
+import { IsNumber, IsNotEmpty } from 'class-validator';
 
-export class UpdateUserAnswersRatingDto extends PartialType(CreateUserAnswersRatingDto) {}
+export class UpdateUserAnswersRatingDto {
+  @IsNumber()
+  user_answers_id: number;
+
+  @IsNumber()
+  user_id: number;
+
+  @IsNumber()
+  vote_count: number;
+
+  @IsNotEmpty()
+  updated_by: string;
+}

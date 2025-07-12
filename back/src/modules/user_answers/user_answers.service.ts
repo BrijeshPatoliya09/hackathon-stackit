@@ -1,26 +1,46 @@
-import { Injectable } from '@nestjs/common';
-import { CreateUserAnswerDto } from './dto/create-user_answer.dto';
-import { UpdateUserAnswerDto } from './dto/update-user_answer.dto';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { userAnswersRepository } from './repository/user_answers.repository';
+import { CreateAnswerDto } from './dto/create-user_answer.dto';
+import { UserAnswers } from './entities/user_answer.entity';
+import { UpdateAnswerDto } from './dto/update-user_answer.dto';
 
 @Injectable()
 export class UserAnswersService {
-  create(createUserAnswerDto: CreateUserAnswerDto) {
-    return 'This action adds a new userAnswer';
+  async create(createAnswerDto: CreateAnswerDto): Promise<UserAnswers> {
+    const answer = userAnswersRepository.create({
+      ...createAnswerDto,
+      created_date: new Date(),
+    });
+
+    return await userAnswersRepository.save(answer);
   }
 
-  findAll() {
-    return `This action returns all userAnswers`;
+  async findOne(id: number): Promise<UserAnswers> {
+    const answer = await userAnswersRepository.findOne({ where: { id } });
+    if (!answer) throw new NotFoundException(`Answer ID ${id} not found`);
+    return answer;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} userAnswer`;
+  async update(id: number, dto: UpdateAnswerDto): Promise<UserAnswers> {
+    const answer = await this.findOne(id);
+    Object.assign(answer, {
+      ...dto,
+      updated_date: new Date(),
+    });
+    return await userAnswersRepository.save(answer);
   }
 
-  update(id: number, updateUserAnswerDto: UpdateUserAnswerDto) {
-    return `This action updates a #${id} userAnswer`;
+  async remove(id: number): Promise<void> {
+    const result = await userAnswersRepository.delete(id);
+    if (result.affected === 0) {
+      throw new NotFoundException(`Answer ID ${id} not found`);
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} userAnswer`;
+  async findByQuestionId(question_id: number): Promise<UserAnswers[]> {
+    return await userAnswersRepository.find({
+      where: { question_id },
+      order: { created_date: 'DESC' },
+    });
   }
 }
