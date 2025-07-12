@@ -4,6 +4,7 @@ A minimalist Q&A forum platform designed for the hackathon environment. Built wi
 
 ---
 
+
 ## 🧩 Tech Stack
 
 | Layer       | Tech Stack                          |
